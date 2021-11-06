@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express'
+import { connectToDB } from './db/db'
 
 const app: Application = express()
 const port = 3000
@@ -12,6 +13,12 @@ app.get('/', async (req: Request, res: Response): Promise<Response> => {
         message: 'Hello World!',
     })
 })
+try {
+    connectToDB()
+} catch (error) {
+    console.error(`Error when connecting to DB`)
+}
+
 
 try {
     app.listen(port, (): void => {

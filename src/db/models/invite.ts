@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn } from "typeorm";
+import { Family } from "./family";
+import { User } from "./user";
 
 @Entity()
-export class Invite {
+export class Invite extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,12 +11,17 @@ export class Invite {
     @Column()
     status: string;
 
-    @Column()
-    invitee: string;
+    @OneToOne(() => User)
+    @JoinColumn()
+    invitee: User;
 
-    @Column()
-    inviter: string;
+    @OneToOne(() => User)
+    @JoinColumn()
+    inviter: User;
 
-    @Column()
-    family: string;
+    @OneToOne(() => Family)
+    @JoinColumn()
+    family: Family;
 }
+
+export type IInvite = Pick<Invite, "id" | "status" | "invitee" | "inviter" | "family">;

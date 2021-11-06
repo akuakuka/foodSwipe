@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from "typeorm";
+import { Family } from "./family";
 
 @Entity()
-export class Food {
+export class Food extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,6 +14,10 @@ export class Food {
     type: string;
 
     @Column()
-    family: Family;
+    picture: string;
 
+    @ManyToOne(() => Family, family => family.foods)
+    family: Family;
 }
+
+export type IFood = Pick<Food, "id" | "name" | "type" | "family" | "picture" | "family">;

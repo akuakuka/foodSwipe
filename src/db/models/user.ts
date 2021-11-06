@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, BaseEntity } from "typeorm";
+import { Family } from "./family";
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -9,4 +10,12 @@ export class User {
     @Column()
     username: string;
 
+    @ManyToMany(() => Family, family => family.users)
+    families: Family[];
+
+}
+
+
+export interface IUser extends Pick<User, "username" | "families"> {
+    id?: number;
 }
