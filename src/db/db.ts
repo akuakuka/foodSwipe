@@ -1,9 +1,8 @@
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection, getConnection } from "typeorm";
 import { Family } from "./models/family";
 import { Food } from "./models/food";
 import { Invite } from "./models/invite";
-import { User } from "./models/user";
-import { JJ } from "./models/jj";
+import { jj } from "./models/user";
 //TODO: Database connections based on node_env
 const NODE_ENV = process.env.NODE_ENV;
 // TODO: entities filuilla?
@@ -20,7 +19,7 @@ export const connectToDB = async (): Promise<Connection> => {
         synchronize: true,
         logging: false,
         entities: [
-            User, Family
+            Family, jj, Food
         ],
         // entities: [
         //     __dirname + "/models/*.ts"
@@ -33,9 +32,15 @@ export const connectToDB = async (): Promise<Connection> => {
 
 export const clearDb = async (connection: Connection): Promise<void> => {
     if (NODE_ENV !== "test") return
-    const entities = connection.entityMetadatas;
+    // Fetch all the entities
+    const entities = getConnection().entityMetadatas;
+
     for (const entity of entities) {
-        const repository = await connection.getRepository(entity.name);
-        await repository.query(`DELETE FROM ${entity.tableName};`);
+        const repository = getConnection().getRepository(entity.name); // Get repository
+
+        await repository.query(`DELETE FROM ${entity.name}`)
+        //await repository.clear(); // Clear each entity table's content
     }
+
 };
+

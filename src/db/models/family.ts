@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, BaseEntity, JoinTable } from "typeorm";
 import { Food } from "./food";
-import { User } from "./user";
+import { jj } from "./user";
 
 @Entity()
 export class Family extends BaseEntity {
@@ -11,14 +11,21 @@ export class Family extends BaseEntity {
     @Column()
     name: string;
 
-    // @ManyToMany(() => User, user => user.families)
-    // users: User[];
+    @ManyToMany(() => jj)
+    @JoinTable()
+    users: jj[];
 
-    // @OneToMany(() => Food, food => food.family)
-    // foods: Food[];
+    @OneToMany(() => Food, food => food.family)
+    foods: Food[];
 
 }
 
 export interface IFamily extends Pick<Family, "name"> {
     id?: number;
 }
+
+
+
+/* @ManyToMany(() => Category)
+@JoinTable()
+categories: Category[]; */

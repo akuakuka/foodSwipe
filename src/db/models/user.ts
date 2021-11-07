@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, BaseEntity } from "
 import { Family } from "./family";
 
 @Entity()
-export class User extends BaseEntity {
+export class jj extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,12 +10,12 @@ export class User extends BaseEntity {
     @Column()
     username: string;
 
-    // @ManyToMany(() => Family, family => family.users)
-    // families: Family[];
+    @ManyToMany(() => Family, family => family.users)
+    families: Family[];
 
 }
 
 
-export interface IUser extends Pick<User, "username"> {
+export interface IUser extends Pick<jj, "username" | "families"> {
     id?: number;
 }

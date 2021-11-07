@@ -2,8 +2,9 @@
 import exp from "constants";
 import { Connection } from "typeorm";
 import { clearDb, connectToDB } from "../db/db";
-import { JJ } from "../db/models/jj";
 
+import { createNewFamily } from "./familyController";
+// import { createMockFamily } from "../utils/testUtils";
 // 
 //export const createNewFamily = async (family: IFamily): Promise<Family> => {
 //should create family;
@@ -29,6 +30,7 @@ import { JJ } from "../db/models/jj";
 
 
 describe("Testing familycontroller", () => {
+    console.log(process.env.NODE_ENV)
     let connection: Connection;
     beforeAll(async () => {
         let con = await connectToDB()
@@ -36,7 +38,8 @@ describe("Testing familycontroller", () => {
         if (con) connection = con;
     });
     beforeEach(async () => {
-        await clearDb(connection);
+        //TODO: ClearDB not working
+        //   await clearDb(connection);
     });
     it('Jest should work', async () => {
         expect(1).toEqual(1)
@@ -49,11 +52,17 @@ describe("Testing familycontroller", () => {
     //     expect(family.name).toEqual(mockfamily.name)
     // });
 
-    it('Creating entity should work', async () => {
-        const j = new JJ()
-        j.j = "kkkak"
-        await j.save()
-        expect(j.j).toEqual("kkkak")
-    })
+    /*     it('Creating entity should work', async () => {
+            const j = new JJ()
+            j.j = "kkkak"
+            await j.save()
+            expect(j.j).toEqual("kkkak")
+        })
+    
+        it('Should create family', async () => {
+            const mockfamily = createMockFamily()
+            const family = await createNewFamily(mockfamily)
+        }) */
+
 
 })
