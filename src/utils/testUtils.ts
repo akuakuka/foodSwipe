@@ -6,14 +6,14 @@ import { IFood } from "../db/models/food";
 export const createMockFamily = (): IFamily => {
     return {
         name: faker.name.firstName(),
-        foods: [],
-        users: []
+        //  foods: [],
+        //   users: []
     }
 }
 
 export const createMockUser = (): IUser => {
     return {
-        families: [],
+        //   families: [],
         username: faker.internet.userName()
     }
 }

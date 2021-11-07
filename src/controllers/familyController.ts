@@ -3,6 +3,8 @@ import { Food, IFood } from "../db/models/food";
 import { IUser, User } from "../db/models/user";
 
 export const createNewFamily = async (family: IFamily): Promise<Family> => {
+    console.log("CREATEs")
+    console.log(family)
     const newFamily = await Family.create({ ...family })
     return newFamily;
 }

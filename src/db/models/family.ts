@@ -11,14 +11,14 @@ export class Family extends BaseEntity {
     @Column()
     name: string;
 
-    @ManyToMany(() => User, user => user.families)
-    users: User[];
+    // @ManyToMany(() => User, user => user.families)
+    // users: User[];
 
-    @OneToMany(() => Food, food => food.family)
-    foods: Food[];
+    // @OneToMany(() => Food, food => food.family)
+    // foods: Food[];
 
 }
 
-export interface IFamily extends Pick<Family, "name" | "users" | "foods"> {
+export interface IFamily extends Pick<Family, "name"> {
     id?: number;
 }

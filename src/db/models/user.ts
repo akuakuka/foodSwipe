@@ -10,12 +10,12 @@ export class User extends BaseEntity {
     @Column()
     username: string;
 
-    @ManyToMany(() => Family, family => family.users)
-    families: Family[];
+    // @ManyToMany(() => Family, family => family.users)
+    // families: Family[];
 
 }
 
 
-export interface IUser extends Pick<User, "username" | "families"> {
+export interface IUser extends Pick<User, "username"> {
     id?: number;
 }
