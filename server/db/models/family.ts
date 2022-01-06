@@ -9,7 +9,7 @@ export class Family extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column()
     name: string;
 
     @ManyToMany(() => Uuser)

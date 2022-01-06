@@ -1,7 +1,8 @@
 import express, { Application, Request, Response } from 'express'
 import { connectToDB } from './db/db'
+import { familyRouter } from './routers/familyRouter'
 
-const app: Application = express()
+export const app: Application = express()
 const port = 3000
 
 // Body parsing Middleware
@@ -13,17 +14,21 @@ app.get('/', async (req: Request, res: Response): Promise<Response> => {
         message: 'Hello World!',
     })
 })
+app.use("/api/v1/family", familyRouter)
+
 try {
     connectToDB()
 } catch (error) {
     console.error(`Error when connecting to DB`)
 }
 
-
-try {
-    app.listen(port, (): void => {
-        console.log(`Connected successfully on port ${port}`)
-    })
-} catch (error) {
-    console.error(`Error occured:`)
+// const port = process.env.PORT || PORT;
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV !== "test") {
+    // supertest handles express app  instances when testing
+    app.listen(port, () => {
+        console.info(
+            `Server listening on port ${port} MODE = ${process.env.NODE_ENV}`
+        );
+    });
 }

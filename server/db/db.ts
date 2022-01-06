@@ -1,6 +1,7 @@
 import { Connection, createConnection, getConnection } from "typeorm";
 import { Family } from "./models/family";
 import { Food } from "./models/food";
+import { Invite } from "./models/invite";
 import { Uuser } from "./models/user";
 //TODO: Database connections based on node_env
 const NODE_ENV = process.env.NODE_ENV;
@@ -14,31 +15,30 @@ export const connectToDB = async (): Promise<Connection> => {
         username: "fest3",
         password: "fest3",
         database: "food_swipe5",
-        synchronize: true,
+        synchronize: false,
         logging: false,
         entities: [
-            Family, Uuser, Food
+            Family, Uuser, Food, Invite
         ],
         // entities: [
         //     __dirname + "/models/*.ts"
         // ],
     });
-
-    await connection.synchronize();
-    return connection;
+    return connection
 }
-// connection: Connection
+
 export const clearDb = async (): Promise<void> => {
     if (NODE_ENV !== "test") return
-    // Fetch all the entities
-    const entities = getConnection().entityMetadatas;
-    /*  console.log(entities) */
-    for (const entity of entities) {
-        const repository = getConnection().getRepository(entity.name); // Get repository
 
-        await repository.query(`DELETE FROM ${entity.name}`)
-        //await repository.clear(); // Clear each entity table's content
-    }
-
+    /*     const entities = getConnection().entityMetadatas;
+    
+        for (const entity of entities) {
+            const repository = getConnection().getRepository(entity.name); 
+    
+            await repository.query(`DELETE FROM ${entity.name}`)
+    
+        } */
+    await getConnection().dropDatabase()
+    await getConnection().synchronize()
 };
 

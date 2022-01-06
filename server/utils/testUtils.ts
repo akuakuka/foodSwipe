@@ -1,6 +1,7 @@
 import faker from "faker";
 import { Family, IFamily } from "../db/models/family";
 import { IFood } from "../db/models/food";
+import { Invite } from "../db/models/invite";
 import { IUser, Uuser } from "../db/models/user";
 
 /* 
@@ -54,3 +55,20 @@ export const createSavedMockUser = async (): Promise<Uuser> => {
     await usr.save()
     return usr
 }
+
+export const createSavedMockInvite = async (): Promise<Invite> => {
+    const invitee = await createSavedMockUser()
+    const invitor = await createSavedMockUser()
+    const fam = await createSavedMockFamily()
+
+    const invite = new Invite();
+    invite.inviter = invitor
+    invite.invitee = invitee
+
+    invite.family = fam
+    invite.status = "pending"
+    await invite.save();
+    return invite
+}
+
+

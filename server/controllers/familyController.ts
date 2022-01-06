@@ -2,6 +2,15 @@ import { Family, IFamily } from "../db/models/family";
 import { Food, IFood } from "../db/models/food";
 import { IUser, Uuser } from "../db/models/user";
 
+export const findFamily = async (id: number): Promise<Family> => {
+
+    const family = await Family.findOne({ id: id }, { relations: ["users"] });
+    if (!family) return Promise.reject()
+    return family;
+}
+
+
+
 export const createNewFamily = async (family: IFamily): Promise<Family> => {
     try {
         const newFamily = await Family.create({ ...family })

@@ -12,13 +12,11 @@ export const createNewFood = async (food: IFood): Promise<Food> => {
     return newFood;
 }
 
-
 export const getFood = async (id: number): Promise<Food> => {
     const found = await Food.findOne({ id: id });
     if (!found) return Promise.reject()
     return found;
 }
-
 
 export const editFood = async (food: IFood): Promise<Food> => {
     let newFood = await Food.findOneOrFail(food.id)

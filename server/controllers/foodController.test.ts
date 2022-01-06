@@ -47,6 +47,9 @@ describe("Testing foodcontoller", () => {
         const found = await getFood(food.id)
         expect(found.id).toEqual(food.id)
         expect(found.name).toEqual(mockfood.name)
+
+        //    expect(1).toEqual(1)
+
     })
 
     it('Should delete food', async () => {
@@ -55,8 +58,4 @@ describe("Testing foodcontoller", () => {
         const dlt = await deleteFood(food.id)
         expect(getFood(food.id)).rejects
     })
-
-
-
-
 })

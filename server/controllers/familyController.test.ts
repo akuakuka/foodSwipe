@@ -2,7 +2,7 @@
 import { Connection } from "typeorm";
 import { clearDb, connectToDB } from "../db/db";
 import { createMockFamily, createMockUser, createSavedMockFamily } from "../utils/testUtils";
-import { addUserToFamily, createNewFamily, removeUserFromFamily } from "./familyController";
+import { addUserToFamily, createNewFamily, findFamily, removeUserFromFamily } from "./familyController";
 import { createNewUser } from "./userController";
 
 
@@ -29,6 +29,14 @@ describe("Testing familycontroller", () => {
         expect(1).toEqual(1)
     })
     describe("Testing creating family", () => {
+
+        it('Should find family', async () => {
+            const mockfamily = await createSavedMockFamily()
+            const found = await findFamily(mockfamily.id)
+            expect(mockfamily.name).toEqual(found.name)
+        });
+
+
         it('Should create family', async () => {
             const mockfamily = createMockFamily()
             const family = await createNewFamily(mockfamily)
