@@ -9,11 +9,11 @@ export const connectToDB = async (): Promise<Connection> => {
 
     const connection = await createConnection({
         type: "postgres",
-        host: "localhost",
+        host: "192.168.1.151",
         port: 5432,
-        username: "postgres",
-        password: "postgres",
-        database: "postgres",
+        username: "fest3",
+        password: "fest3",
+        database: "food_sipe4",
         synchronize: true,
         logging: false,
         entities: [

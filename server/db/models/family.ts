@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Food } from "./food";
 import { Uuser } from "./user";
 
 @Entity()
@@ -8,13 +9,15 @@ export class Family extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ unique: true })
     name: string;
 
     @ManyToMany(() => Uuser)
     @JoinTable()
     users: Uuser[];
 
+    @OneToMany(() => Food, food => food.family)
+    foods: Food[];
 
 
 }
@@ -24,8 +27,6 @@ export interface IFamily extends Pick<Family, "name" | "users"> {
 }
 
 
-/*     @OneToMany(() => Food, food => food.family)
-    foods: Food[]; */
 
 /* @ManyToMany(() => Category)
 @JoinTable()

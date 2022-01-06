@@ -3,16 +3,20 @@ import { Food, IFood } from "../db/models/food";
 import { IUser, Uuser } from "../db/models/user";
 
 export const createNewFamily = async (family: IFamily): Promise<Family> => {
-
-    const newFamily = await Family.create({ ...family })
-    return newFamily;
-
-
+    try {
+        const newFamily = await Family.create({ ...family })
+        await newFamily.save()
+        return newFamily;
+    } catch (e) {
+        throw (e)
+    }
 }
 
 export const addUserToFamily = async (fam: number, user: Uuser): Promise<Family> => {
-    const family = await Family.findOneOrFail(fam);
-    console.log(family)
+
+    const family = await Family.findOne({ id: fam }, { relations: ["users"] });
+    if (!family) return Promise.reject()
+
     /*  const usr = await Uuser.findOneOrFail(user.id); */
 
     family.users.push(user)
@@ -20,6 +24,18 @@ export const addUserToFamily = async (fam: number, user: Uuser): Promise<Family>
     await family.save()
     await family.reload()
 
+    return family;
+}
+export const removeUserFromFamily = async (fam: number, user: IUser): Promise<Family> => {
+    const family = await Family.findOne({ id: fam }, { relations: ["users"] });
+    if (!family) return Promise.reject()
+
+    const usr = await Uuser.findOne({ id: user.id });
+    if (!usr) return Promise.reject()
+
+
+    family.users = family.users.filter(f => f.id !== usr.id)
+    await family.save()
     return family;
 }
 
@@ -40,11 +56,3 @@ export const removeFoodFromFamily = async (fam: IFamily, food: IFood): Promise<F
     return family;
 }
 
-export const removeUserFromFamily = async (fam: IFamily, user: IUser): Promise<Family> => {
-    const family = await Family.findOneOrFail(fam.id);
-    const usr = await Uuser.findOneOrFail(user.id);
-
-    family.users = family.users.filter(f => f.id !== usr.id)
-    await family.save()
-    return family;
-}

@@ -1,7 +1,7 @@
 import faker from "faker";
 import { Family, IFamily } from "../db/models/family";
 import { IFood } from "../db/models/food";
-import { IUser } from "../db/models/user";
+import { IUser, Uuser } from "../db/models/user";
 
 /* 
 
@@ -30,12 +30,27 @@ export const createMockFamily = (): IFamily => {
     }
 }
 
-export const createMockFood = (family: Family): IFood => {
+export const createMockFood = (): IFood => {
     return {
         picture: faker.internet.url(),
-        type: "home",
+        type: Math.random() >= 0.5 ? "restaurant" : "home",
         name: faker.animal.fish(),
 
 
     }
+}
+
+
+export const createSavedMockFamily = async (): Promise<Family> => {
+    const mock = createMockFamily()
+    const fam = await Family.create({ ...mock })
+    await fam.save()
+    return fam
+}
+
+export const createSavedMockUser = async (): Promise<Uuser> => {
+    const mock = createMockUser()
+    const usr = await Uuser.create({ ...mock })
+    await usr.save()
+    return usr
 }

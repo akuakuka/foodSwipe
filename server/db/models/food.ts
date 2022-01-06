@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Family } from "./family";
 
 @Entity()
 export class Food extends BaseEntity {
@@ -15,9 +16,8 @@ export class Food extends BaseEntity {
     @Column()
     picture: string;
 
-    /*     @ManyToOne(() => Family, family => family.foods)
-        family: Family;
-    } */
+    @ManyToOne(() => Family, family => family.foods)
+    family: Family
 }
 export interface IFood extends Pick<Food, | "name" | "type" | "picture"> {
     id?: number;
