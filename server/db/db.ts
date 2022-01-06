@@ -1,14 +1,12 @@
 import { Connection, createConnection, getConnection } from "typeorm";
 import { Family } from "./models/family";
 import { Food } from "./models/food";
-import { Invite } from "./models/invite";
-import { jj } from "./models/user";
+import { Uuser } from "./models/user";
 //TODO: Database connections based on node_env
 const NODE_ENV = process.env.NODE_ENV;
 // TODO: entities filuilla?
 export const connectToDB = async (): Promise<Connection> => {
-    console.log("connectToDB")
-    console.log(__dirname + "/models/*.ts")
+
     const connection = await createConnection({
         type: "postgres",
         host: "localhost",
@@ -19,22 +17,22 @@ export const connectToDB = async (): Promise<Connection> => {
         synchronize: true,
         logging: false,
         entities: [
-            Family, jj, Food
+            Family, Uuser, Food
         ],
         // entities: [
         //     __dirname + "/models/*.ts"
         // ],
     });
-    console.log("Connected to TEST DB !")
+
     await connection.synchronize();
     return connection;
 }
-
-export const clearDb = async (connection: Connection): Promise<void> => {
+// connection: Connection
+export const clearDb = async (): Promise<void> => {
     if (NODE_ENV !== "test") return
     // Fetch all the entities
     const entities = getConnection().entityMetadatas;
-
+    /*  console.log(entities) */
     for (const entity of entities) {
         const repository = getConnection().getRepository(entity.name); // Get repository
 

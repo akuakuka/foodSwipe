@@ -1,10 +1,15 @@
 import { DeleteResult } from "typeorm";
-import { Family, IFamily } from "../db/models/family";
 import { Food, IFood } from "../db/models/food";
-import { IUser, User } from "../db/models/user";
 
 export const createNewFood = async (food: IFood): Promise<Food> => {
-    const newFood = await Food.create({ ...food })
+    const newFood = new Food();
+    // { family: food.family, name: food.name, type: food.type, picture: food.picture }
+
+    newFood.name = food.name;
+    newFood.picture = food.picture;
+    newFood.type = food.type
+    console.log(newFood)
+    await newFood.save()
     return newFood;
 }
 
@@ -18,6 +23,8 @@ export const editFood = async (food: IFood): Promise<Food> => {
 }
 
 export const deleteFood = async (food: IFood): Promise<DeleteResult> => {
+    if (!food.id) Promise.reject();
+    //@ts-ignore
     let deletedFood = await Food.delete(food.id)
     return deletedFood;
 }

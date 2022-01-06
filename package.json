@@ -4,9 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "ts-node-dev ./src/index.ts",
+        "start": "ts-node-dev ./server/index.ts",
         "test": "set NODE_ENV=test&&jest",
-        "test:watch": "set NODE_ENV=test&&jest --watch"
+        "test:watch": "set NODE_ENV=test&&jest --watch --runInBand"
     },
     "author": "",
     "license": "ISC",

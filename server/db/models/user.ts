@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, BaseEntity } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Family } from "./family";
 
 @Entity()
-export class jj extends BaseEntity {
+export class Uuser extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -16,6 +16,6 @@ export class jj extends BaseEntity {
 }
 
 
-export interface IUser extends Pick<jj, "username" | "families"> {
+export interface IUser extends Pick<Uuser, "username" | "families"> {
     id?: number;
 }
