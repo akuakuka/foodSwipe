@@ -1,8 +1,8 @@
 
 import { Connection } from "typeorm";
 import { clearDb, connectToDB } from "../db/db";
-import { createMockFamily, createMockFood, createMockUser, createSavedMockFamily } from "../utils/testUtils";
-import { addFoodToFamily, addUserToFamily, createNewFamily, removeUserFromFamily } from "./familyController";
+import { createMockFamily, createMockUser, createSavedMockFamily } from "../utils/testUtils";
+import { addUserToFamily, createNewFamily, removeUserFromFamily } from "./familyController";
 import { createNewUser } from "./userController";
 
 
@@ -37,22 +37,15 @@ describe("Testing familycontroller", () => {
         });
 
         it('Should not create family with same name', async () => {
+            expect(async () => {
+                const mockfamily = createMockFamily()
+                const family = await createNewFamily(mockfamily)
+                await family.save()
+                const family2 = await createNewFamily(mockfamily)
+                await family2.save()
 
-
-            // expect(async () => {
-            //     const mockfamily = createMockFamily()
-            //     const family = await createNewFamily(mockfamily)
-            //     await family.save()
-            //     const family2 = await createNewFamily(mockfamily)
-            //     await family2.save()
-
-            // }).toThrow();
-
-
+            }).rejects;
         });
-
-
-
     })
 
     describe("Testing adding users", () => {

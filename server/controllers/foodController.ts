@@ -4,7 +4,6 @@ import { Food, IFood } from "../db/models/food";
 export const createNewFood = async (food: IFood): Promise<Food> => {
     const newFood = new Food();
     // { family: food.family, name: food.name, type: food.type, picture: food.picture }
-
     newFood.name = food.name;
     newFood.picture = food.picture;
     newFood.type = food.type
@@ -12,6 +11,14 @@ export const createNewFood = async (food: IFood): Promise<Food> => {
     await newFood.save()
     return newFood;
 }
+
+
+export const getFood = async (id: number): Promise<Food> => {
+    const found = await Food.findOne({ id: id });
+    if (!found) return Promise.reject()
+    return found;
+}
+
 
 export const editFood = async (food: IFood): Promise<Food> => {
     let newFood = await Food.findOneOrFail(food.id)
@@ -22,9 +29,9 @@ export const editFood = async (food: IFood): Promise<Food> => {
     return newFood;
 }
 
-export const deleteFood = async (food: IFood): Promise<DeleteResult> => {
-    if (!food.id) Promise.reject();
+export const deleteFood = async (id: number): Promise<DeleteResult> => {
+    if (!id) Promise.reject();
     //@ts-ignore
-    let deletedFood = await Food.delete(food.id)
+    let deletedFood = await Food.delete(id)
     return deletedFood;
 }

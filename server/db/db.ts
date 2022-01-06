@@ -13,7 +13,7 @@ export const connectToDB = async (): Promise<Connection> => {
         port: 5432,
         username: "fest3",
         password: "fest3",
-        database: "food_sipe4",
+        database: "food_swipe5",
         synchronize: true,
         logging: false,
         entities: [

@@ -1,10 +1,8 @@
 
-import { Connection, getConnection } from "typeorm";
+import { Connection } from "typeorm";
 import { clearDb, connectToDB } from "../db/db";
-import { Food } from "../db/models/food";
-import { createMockFamily, createMockFood } from "../utils/testUtils";
-import { createNewFamily } from "./familyController";
-import { createNewFood } from "./foodController";
+import { createMockFood } from "../utils/testUtils";
+import { createNewFood, deleteFood, getFood } from "./foodController";
 
 
 
@@ -20,24 +18,42 @@ describe("Testing foodcontoller", () => {
     beforeEach(async () => {
         //TODO: ClearDB not working
         await clearDb();
+        console.log("beforeeach")
     });
     afterAll(async () => {
         await connection.close()
     });
 
-
-    it('Jest should work', async () => {
-        expect(1).toEqual(1)
-    })
     it('Should create food', async () => {
-        // const mockfamily = createMockFamily()
-        // const family = await createNewFamily(mockfamily)
+        const mockfood = createMockFood()
+        console.log(mockfood)
+        const food = await createNewFood(mockfood)
+        expect(food.name).toEqual(mockfood.name)
+    })
 
-        // const mockfood = createMockFood()
-        // const savedfood = await createNewFood(mockfood);
-        // /*     console.log(savedfood) */
-        // expect(savedfood.name).toBeTruthy()
 
+    it('Should not create food with same name', async () => {
+        const mockfood = createMockFood()
+        const food = await createNewFood(mockfood)
+
+        expect(createNewFood(mockfood)).rejects
+        //expect(food.name).toEqual(mockfood.name)
+    })
+
+
+    it('Should find food', async () => {
+        const mockfood = createMockFood()
+        const food = await createNewFood(mockfood)
+        const found = await getFood(food.id)
+        expect(found.id).toEqual(food.id)
+        expect(found.name).toEqual(mockfood.name)
+    })
+
+    it('Should delete food', async () => {
+        const mockfood = createMockFood()
+        const food = await createNewFood(mockfood)
+        const dlt = await deleteFood(food.id)
+        expect(getFood(food.id)).rejects
     })
 
 

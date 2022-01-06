@@ -34,7 +34,7 @@ export const createMockFood = (): IFood => {
     return {
         picture: faker.internet.url(),
         type: Math.random() >= 0.5 ? "restaurant" : "home",
-        name: faker.animal.fish(),
+        name: faker.internet.password(),
 
 
     }
